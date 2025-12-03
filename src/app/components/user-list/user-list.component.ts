@@ -15,6 +15,7 @@ export class UserListComponent implements OnInit {
   usuarioSeleccionado: Usuario | null = null;
   mostrarFormulario = false;
   modoEdicion = false;
+  cargando = false;
 
   constructor(private userService: UserService) {}
 
@@ -23,12 +24,15 @@ export class UserListComponent implements OnInit {
   }
 
   cargarUsuarios(): void {
+    this.cargando = true;
     this.userService.obtenerUsuarios().subscribe({
       next: (usuarios) => {
         this.usuarios = usuarios;
+        this.cargando = false;
       },
       error: (error) => {
         console.error('Error al cargar usuarios:', error);
+        this.cargando = false;
       }
     });
   }

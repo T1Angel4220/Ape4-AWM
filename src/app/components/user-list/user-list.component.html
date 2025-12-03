@@ -1,6 +1,9 @@
 <div class="user-list-container">
   <div class="header">
-    <h2>Gestión de Usuarios</h2>
+    <div>
+      <h2>Gestión de Usuarios</h2>
+      <span class="user-count">{{ usuarios.length }} usuario{{ usuarios.length !== 1 ? 's' : '' }}</span>
+    </div>
     <button class="btn-primary" (click)="crearUsuario()">+ Nuevo Usuario</button>
   </div>
 
@@ -13,7 +16,11 @@
   </div>
 
   <div class="table-container">
-    <table>
+    <div *ngIf="cargando" class="loading-container">
+      <div class="spinner"></div>
+      <p>Cargando usuarios...</p>
+    </div>
+    <table *ngIf="!cargando">
       <thead>
         <tr>
           <th>ID</th>
