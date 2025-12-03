@@ -1,7 +1,10 @@
 <div class="login-container">
   <div class="login-card">
-    <h2>Iniciar Sesión</h2>
-    <form (ngSubmit)="onSubmit()">
+    <div class="login-header">
+      <h2>Iniciar Sesión</h2>
+      <p class="login-subtitle">Ingresa tus credenciales para continuar</p>
+    </div>
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
       <div class="form-group">
         <label for="email">Email:</label>
         <input 
@@ -11,7 +14,11 @@
           name="email" 
           required
           placeholder="usuario@example.com"
+          (blur)="onEmailBlur()"
+          [class.error]="emailError"
+          [disabled]="isLoading"
         />
+        <span *ngIf="emailError" class="field-error">{{ emailError }}</span>
       </div>
       <div class="form-group">
         <label for="password">Contraseña:</label>
@@ -22,12 +29,31 @@
           name="password" 
           required
           placeholder="••••••••"
+          (blur)="onPasswordBlur()"
+          [class.error]="passwordError"
+          [disabled]="isLoading"
         />
+        <span *ngIf="passwordError" class="field-error">{{ passwordError }}</span>
       </div>
       <div *ngIf="errorMessage" class="error-message">
+        <span class="error-icon">⚠️</span>
         {{ errorMessage }}
       </div>
-      <button type="submit" class="btn-primary">Iniciar Sesión</button>
+      <button 
+        type="submit" 
+        class="btn-primary"
+        [disabled]="isLoading"
+        [class.loading]="isLoading"
+      >
+        <span *ngIf="!isLoading">Iniciar Sesión</span>
+        <span *ngIf="isLoading" class="loading-content">
+          <span class="spinner"></span>
+          Iniciando sesión...
+        </span>
+      </button>
+      <div class="login-hint">
+        <p>💡 <strong>Nota:</strong> Cualquier email y contraseña válidos funcionarán para esta demo.</p>
+      </div>
     </form>
   </div>
 </div>
